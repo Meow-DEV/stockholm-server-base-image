@@ -8,3 +8,10 @@ RUN apt-get update -y \
 
 ENV TZ=Asia/Chongqing
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN mkdir -p /stockholm-server
+WORKDIR /stockholm-server
+COPY Gemfile ./
+COPY Gemfile.lock ./
+RUN gem install bundler
+RUN bundle install --without development test staging
